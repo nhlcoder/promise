@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>JavaScript</h1>
+    <ul id="comment_block"></ul>
+</body>
+
+</html>
+<script>
+    // Array User
+    const users = [
+        {
+            id: 1,
+            name: 'Duy Bro'
+        }, {
+            id: 2,
+            name: 'Ly Bro'
+        }, {
+            id: 3,
+            name: 'Huy Bro'
+        }, {
+            id: 4,
+            name: 'Te Bro'
+        }
+    ];
+    // Array Comments
+    const comments = [
+        {
+            id: 1,
+            user_id: 1,
+            cmt: 'Hom nay anh ra video som the :))'
+        }, {
+            id: 2,
+            user_id: 2,
+            cmt: 'Nay anh ranh nen ra video som!'
+        }, {
+            id: 3,
+            user_id: 1,
+            cmt: 'Cam on anh^^'
+        }, {
+            id: 4,
+            user_id: 2,
+            cmt: 'Khong co gi em oi@@'
+        }, {
+            id: 5,
+            user_id: 4,
+            cmt: 'Hihi'
+        }
+    ];
+
+    function getComments() {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(comments);
+            }, 2000);
+        });
+    };
+
+    function getUserbyIds(userIds) {
+        return new Promise((resolve) => {
+            var result = users.filter((user) => {
+                return userIds.includes(user.id);
+            })
+            setTimeout(() => {
+                resolve(result);
+            }, 2000);
+        });
+    };
+
+
+    getComments()
+        .then((comments) => {
+            var userIds = comments.map((user) => {
+                return user.user_id;
+            })
+            return getUserbyIds(userIds)
+                .then((users) => {
+                    return {
+                        users: users,
+                        comments: comments,
+                    }
+                })
+        })
+        .then((data) => {
+            var getCommentBlock = document.getElementById('comment_block');
+            let haha = '';
+            data.comments.forEach((comment) => {
+                var user = data.users.find((user) => {
+                    return user.id === comment.user_id;
+                })
+                haha += `<li>${user.name}: ${comment.cmt}</li>`;
+            });
+            getCommentBlock.innerHTML = haha;
+        })
+
+
+
+    // function getComments() {
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             resolve(comments);
+    //         }, 2000);
+    //     });
+    // };
+
+    // function getUserbyId() {
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             resolve(users);
+    //         }, 2000);
+    //     });
+    // };
+
+
+
+    // getComments()
+    //     .then(() => {
+    //         return {
+    //             users: users,
+    //             comments: comments,
+    //         }
+    //     })
+    //     .then((data) => {
+    //         var getCommentBlock = document.getElementById('comment_block');
+    //         let haha = '';
+    //         data.comments.forEach((comment) => {
+    //             var user = data.users.find((user) => {
+    //                 return user.id === comment.user_id;
+    //             })
+    //             haha += `<li>${user.name}: ${comment.cmt}</li>`;
+    //         });
+    //         getCommentBlock.innerHTML = haha;
+    //     })
+
+
+
+</script>
